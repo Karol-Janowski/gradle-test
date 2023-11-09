@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'pmd'
+}
+
+group = 'pl.zajavka'
+version = '0.1.0'
+sourceCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+pmd {
+    toolVersion = '6.39.0'
+    ignoreFailures = false
+    ruleSets = [
+            'java-basic',     // Basic rule set
+            'java-error',
+            //'java-bestpractices'// Java error rule set
+            // Add more rule sets as needed
+    ]
+}
+
+
+dependencies {
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
+
+    testCompileOnly 'junit:junit:4.12'
+}
+
+jar {
+    archivesBaseName = 'myBaseName'
+    manifest {
+        attributes 'Main-Class': 'code.Main'
+    } from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
